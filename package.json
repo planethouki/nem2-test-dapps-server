@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "type-check": "tsc --noEmit",
+    "dev": "netlify dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,6 +13,10 @@
   "license": "MIT",
   "dependencies": {
     "@netlify/functions": "^0.7.2",
+    "symbol-sdk": "^1.0.1",
     "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6"
   }
 }
