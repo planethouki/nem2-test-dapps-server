@@ -16,29 +16,38 @@ type RequestBody = {
     mosaicId: string
 }
 
+const corsHeaders: { [key: string]: string } = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "*",
+    "Access-Control-Allow-Methods": "*"
+}
+
 const handler: Handler = async (event, context) => {
 
     if (event.httpMethod === "OPTIONS") {
         return {
             statusCode: 200,
             headers: {
-                "content-type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Methods": "*"
+                ...corsHeaders
             }
         };
     }
 
     if (event.httpMethod !== "POST") {
         return {
-            statusCode: 405
+            statusCode: 405,
+            headers: {
+                ...corsHeaders
+            }
         }
     }
 
     if (typeof event.body !== "string") {
         return {
             statusCode: 400,
+            headers: {
+                ...corsHeaders
+            },
             body: JSON.stringify({
                 message: "body required"
             })
@@ -50,6 +59,9 @@ const handler: Handler = async (event, context) => {
     if (body.mosaicId === "" || body.publicKey === "") {
         return {
             statusCode: 400,
+            headers: {
+                ...corsHeaders
+            },
             body: JSON.stringify({
                 message: "invalid body"
             })
@@ -95,9 +107,7 @@ const handler: Handler = async (event, context) => {
         statusCode: 200,
         headers: {
             "content-type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Methods": "*"
+            ...corsHeaders
         },
         body: JSON.stringify(signedTx),
     };
