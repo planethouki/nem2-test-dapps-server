@@ -20,8 +20,14 @@ const handler: Handler = async (event, context) => {
 
     if (event.httpMethod === "OPTIONS") {
         return {
-            statusCode: 200
-        }
+            statusCode: 200,
+            headers: {
+                "content-type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "POST"
+            }
+        };
     }
 
     if (event.httpMethod !== "POST") {
@@ -34,7 +40,7 @@ const handler: Handler = async (event, context) => {
         return {
             statusCode: 400,
             body: JSON.stringify({
-                message: 'body required'
+                message: "body required"
             })
         }
     }
@@ -45,7 +51,7 @@ const handler: Handler = async (event, context) => {
         return {
             statusCode: 400,
             body: JSON.stringify({
-                message: 'invalid body'
+                message: "invalid body"
             })
         }
     }
@@ -88,7 +94,10 @@ const handler: Handler = async (event, context) => {
     return {
         statusCode: 200,
         headers: {
-            'content-type': "application/json"
+            "content-type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Methods": "POST"
         },
         body: JSON.stringify(signedTx),
     };
