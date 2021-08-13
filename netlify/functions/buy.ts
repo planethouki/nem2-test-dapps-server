@@ -18,6 +18,12 @@ type RequestBody = {
 
 const handler: Handler = async (event, context) => {
 
+    if (event.httpMethod === "OPTIONS") {
+        return {
+            statusCode: 200
+        }
+    }
+
     if (event.httpMethod !== "POST") {
         return {
             statusCode: 405
