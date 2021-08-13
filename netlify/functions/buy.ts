@@ -24,8 +24,8 @@ const handler: Handler = async (event, context) => {
             headers: {
                 "content-type": "application/json",
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Methods": "POST"
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "*"
             }
         };
     }
@@ -96,8 +96,8 @@ const handler: Handler = async (event, context) => {
         headers: {
             "content-type": "application/json",
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Methods": "POST"
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "*"
         },
         body: JSON.stringify(signedTx),
     };
