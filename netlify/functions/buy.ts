@@ -85,7 +85,7 @@ const handler: Handler = async (event, context) => {
     )
     const deliveryTx: TransferTransaction = TransferTransaction.create(
         Deadline.create(epochAdjustment),
-        minter.address,
+        recipient.address,
         [new Mosaic(new MosaicId(nftMosaicId), UInt64.fromUint(1))],
         PlainMessage.create(""),
         networkType
