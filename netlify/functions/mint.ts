@@ -30,13 +30,11 @@ import {TransactionCreator} from "./lib/TransactionCreator";
 
 const handler: Handler = async (event, context) => {
 
-    const networkType: NetworkType = NetworkType.TEST_NET
-    const repo: RepositoryFactoryHttp = new RepositoryFactoryHttp("https://dg0nbr5d1ohfy.cloudfront.net:443")
-    const transactionHttp: TransactionRepository = repo.createTransactionRepository()
 
     const constants: NetworkConstants = new NetworkConstants(NetworkType.TEST_NET)
     const minter: Account = constants.minter
     const generationHash: string = constants.generationHash
+    const transactionHttp: TransactionRepository = constants.transactionHttp
     const creator = new TransactionCreator()
 
     const tx = creator.createMintTransaction()

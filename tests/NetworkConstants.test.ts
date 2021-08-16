@@ -1,5 +1,5 @@
 import {NetworkConstants} from '../netlify/functions/lib/NetworkConstants';
-import {NetworkType} from "symbol-sdk";
+import {NetworkType, Transaction, TransactionHttp} from "symbol-sdk";
 import { expect } from 'chai'
 
 it('basic', () => {
@@ -17,4 +17,5 @@ it('has properties', () => {
     expect(n.minter.address.plain()).eq("TCZ5KXKSAJA74A5ECZCXMHOHKFVQ36YSONW4RSA")
     expect(n.networkType).eq(NetworkType.TEST_NET)
     expect(n.epochAdjustment).eq(1616694977)
+    expect(n.transactionHttp).to.instanceof(TransactionHttp)
 })
