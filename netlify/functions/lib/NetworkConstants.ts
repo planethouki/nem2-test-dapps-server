@@ -5,6 +5,7 @@ export class NetworkConstants {
     public networkType: NetworkType;
     public minter: Account;
     public generationHash: string;
+    public epochAdjustment: number;
 
     constructor(networkType: NetworkType) {
         if (networkType !== NetworkType.TEST_NET) {
@@ -17,5 +18,6 @@ export class NetworkConstants {
             this.networkType
         )
         this.generationHash = "3B5E1FA6445653C971A50687E75E6D09FB30481055E3990C84B25E9222DC1155"
+        this.epochAdjustment = 1616694977
     }
 }

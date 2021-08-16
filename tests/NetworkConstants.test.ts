@@ -16,4 +16,5 @@ it('has properties', () => {
     expect(n.generationHash).eq("3B5E1FA6445653C971A50687E75E6D09FB30481055E3990C84B25E9222DC1155")
     expect(n.minter.address.plain()).eq("TCZ5KXKSAJA74A5ECZCXMHOHKFVQ36YSONW4RSA")
     expect(n.networkType).eq(NetworkType.TEST_NET)
+    expect(n.epochAdjustment).eq(1616694977)
 })
