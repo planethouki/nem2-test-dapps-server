@@ -1,5 +1,5 @@
 import {Handler} from "@netlify/functions";
-import {Account, NetworkType, SignedTransaction} from "symbol-sdk";
+import {Account, NetworkType, SignedTransaction, TransactionAnnounceResponse, TransactionRepository} from "symbol-sdk";
 import {BuyRequestBody} from "./lib/BuyRequestBody";
 import {TransactionCreator} from "./lib/TransactionCreator";
 import {NetworkConstants} from "./lib/NetworkConstants";
@@ -64,6 +64,11 @@ const handler: Handler = async (event, context) => {
 
     const tx = creator.createBuyTransaction(body)
     const signedTx: SignedTransaction = minter.sign(tx, generationHash)
+
+
+    // mint nft triggered by buy
+    const transactionHttp: TransactionRepository = constants.transactionHttp
+    await transactionHttp.announce(minter.sign(creator.createMintTransaction(), generationHash)).toPromise()
 
     return {
         statusCode: 200,
