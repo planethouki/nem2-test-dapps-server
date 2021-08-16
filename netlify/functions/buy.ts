@@ -2,6 +2,7 @@ import {Handler} from "@netlify/functions";
 import {Account, NetworkType, SignedTransaction} from "symbol-sdk";
 import {BuyRequestBody} from "./lib/BuyRequestBody";
 import {TransactionCreator} from "./lib/TransactionCreator";
+import {NetworkConstants} from "./lib/NetworkConstants";
 
 
 const corsHeaders: { [key: string]: string } = {
@@ -56,11 +57,9 @@ const handler: Handler = async (event, context) => {
         }
     }
 
-    const minter: Account = Account.createFromPrivateKey(
-        "25B3F54217340F7061D02676C4B928ADB4395EB70A2A52D2A11E2F4AE011B03E",
-        NetworkType.TEST_NET
-    )
-    const generationHash: string = "3B5E1FA6445653C971A50687E75E6D09FB30481055E3990C84B25E9222DC1155"
+    const constants: NetworkConstants = new NetworkConstants(NetworkType.TEST_NET)
+    const minter: Account = constants.minter
+    const generationHash: string = constants.generationHash
     const creator = new TransactionCreator()
 
     const tx = creator.createBuyTransaction(body)
