@@ -6,7 +6,7 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "dev": "netlify dev",
-    "test": "jest"
+    "test": "mocha"
   },
   "keywords": [],
   "author": "planethouki",
@@ -17,8 +17,10 @@
     "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.1",
-    "jest": "^27.0.6",
-    "ts-jest": "^27.0.4"
+    "@types/chai": "^4.2.21",
+    "@types/mocha": "^9.0.0",
+    "chai": "^4.3.4",
+    "mocha": "^9.0.3",
+    "ts-node": "^10.2.0"
   }
 }
