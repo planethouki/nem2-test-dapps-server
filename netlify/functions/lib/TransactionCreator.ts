@@ -2,16 +2,30 @@ import {
     Account,
     AggregateTransaction,
     Deadline,
-    Mosaic, MosaicId,
-    NetworkType, PlainMessage,
+    KeyGenerator,
+    Mosaic,
+    MosaicDefinitionTransaction,
+    MosaicFlags,
+    MosaicId,
+    MosaicMetadataTransaction,
+    MosaicNonce,
+    MosaicSupplyChangeAction,
+    MosaicSupplyChangeTransaction,
+    NetworkType,
+    PlainMessage,
     PublicAccount,
-    TransferTransaction, UInt64
+    TransferTransaction,
+    UInt64
 } from "symbol-sdk";
 import {BuyRequestBody} from './BuyRequestBody';
+import {NetworkConstants} from "./NetworkConstants";
 
 export class TransactionCreator {
 
+    private constants: NetworkConstants;
+
     constructor() {
+        this.constants = new NetworkConstants(NetworkType.TEST_NET)
     }
 
     createBuyTransaction (body: BuyRequestBody): AggregateTransaction {
@@ -48,6 +62,52 @@ export class TransactionCreator {
             UInt64.fromUint(20000000),
         )
 
+        return tx
+    }
+
+    createMintTransaction (): AggregateTransaction {
+        const networkType: NetworkType = this.constants.networkType
+        const minter: Account = this.constants.minter
+        const epochAdjustment: number = this.constants.epochAdjustment
+
+        const [isSupplyMutable, isTransferable, isRestrictable ] = [false, true, false]
+        const nonce: MosaicNonce = MosaicNonce.createRandom()
+        const mosaicDefinitionTx: MosaicDefinitionTransaction = MosaicDefinitionTransaction.create(
+            Deadline.create(epochAdjustment),
+            nonce,
+            MosaicId.createFromNonce(nonce, minter.address),
+            MosaicFlags.create(isSupplyMutable, isTransferable, isRestrictable),
+            0,
+            UInt64.fromUint(0),
+            networkType
+        )
+        const mosaicSupplyChangeTx: MosaicSupplyChangeTransaction = MosaicSupplyChangeTransaction.create(
+            Deadline.create(epochAdjustment),
+            mosaicDefinitionTx.mosaicId,
+            MosaicSupplyChangeAction.Increase,
+            UInt64.fromUint(1),
+            networkType,
+        )
+        const metadataTx: MosaicMetadataTransaction = MosaicMetadataTransaction.create(
+            Deadline.create(epochAdjustment),
+            minter.address,
+            KeyGenerator.generateUInt64Key('Primitives'),
+            mosaicDefinitionTx.mosaicId,
+            3,
+            "NFT",
+            networkType,
+        );
+        const tx: AggregateTransaction = AggregateTransaction.createComplete(
+            Deadline.create(epochAdjustment),
+            [
+                mosaicDefinitionTx.toAggregate(minter.publicAccount),
+                mosaicSupplyChangeTx.toAggregate(minter.publicAccount),
+                metadataTx.toAggregate(minter.publicAccount)
+            ],
+            networkType,
+            [],
+            UInt64.fromUint(20000000),
+        )
         return tx
     }
 }
